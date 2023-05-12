@@ -37,7 +37,7 @@ SAP has several buffer types which include
 * [Table Buffers](#Table-Buffers)
 * Program Buffer
 * SAPgui Buffers
-* Roll and Paging Buffers
+* [Roll and Paging Buffers](#Roll-and-Paging-Buffers)
 * SAP Calendar Buffer
 * SAP Cursor Cache
 
@@ -67,9 +67,9 @@ All of this information is summaried in the name table in the following db table
 * DDNTF (Field descriptions)
 
 The Repositroy Buffer consists of four buffers in shared memory:
-
-| Table Definitions | TTAB Buffer | Table DDNT |
+| | | |
 |---|---|---|
+| Table Definitions | TTAB Buffer | Table DDNT |
 | Field Descriptions | FTAB Buffer | Table DDNTF |
 | Initial Record Layouts | IREC Buffer | Contains the record layout initialized depending on the field type |
 | Short Nametab | SNTAB buffer | A short summary of TTAB and FTAB buffers |
@@ -91,6 +91,17 @@ The IREC buffer is read:
 * When a REFRESH command is executed in an ABAP program
 * At an INSERT command, when a record is created in the buffers before the data is inserted and the fields are initialized with the values found in IREC buffer
 
+# Roll and Paging Buffers
+Roll and Paging buffers are the preferred working areas of the roll and paging areas for an instance (AS)
+
+The remaining area is located on disk as roll and paging files.
+
+The user context is stored in the extended memory and the roll area (When the johb is "rolled out" of a work process).
+
+Roll and Paging / Extneded Memory areas have different tasks they are used for:
+* **Roll and Paging Area** - Stores special data for the ABAP processor
+* **Extended Memory** - Stores a large portion of the internal tables of a program
+
 # T-Codes
 se11 - Create a Database Table
 
@@ -98,6 +109,8 @@ se11 - Create a Database Table
 # Acronyms
 
 ***ABAP: Advanced Business Application Programming***
+
+***AS: Application Server***
 
 ***TTAB: Table Buffer***
 
