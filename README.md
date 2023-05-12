@@ -34,7 +34,7 @@ ABAP Program's are children of Internal Sessions
 SAP has several buffer types which include
 
 * [Repository Buffers](#Repository-Buffers)
-* Table Buffers
+* [Table Buffers](#Table-Buffers)
 * Program Buffer
 * SAPgui Buffers
 * Roll and Paging Buffers
@@ -55,7 +55,41 @@ An entry is made in the Repositroy buffer when a *mass activator* or a *user* re
 * What does it mean when a table is activated?
 
 Once activated, the corresponding name table is generated from the information that is managed in the repository
-* Does this essentially mean that once we have retrieved the table information from the database, it is then stored in the Repositroy Buffer?
+* Does this essentially mean that once we have retrieved the table information from the database, it is then stored in the Repositroy Buffer to optimize our system when accessing that table?
+
+When the newly created table is being stored in the Repository Buffer, the description of the table is distributed among severl other tables including:
+* Field Definition
+* Data Element Definition
+* Domain Definition
+
+All of this information is summaried in the name table in the following db tables:
+* DDNTT (Table definitons)
+* DDNTF (Field descriptions)
+
+The Repositroy Buffer consists of four buffers in shared memory:
+| | | |
+|---|---|---|
+| Table Definitions | TTAB Buffer | Table DDNT |
+| Field Descriptions | FTAB Buffer | Table DDNTF |
+| Initial Record Layouts | IREC Buffer | Contains the record layout initialized depending on the field type |
+| Short Nametab | SNTAB buffer | A short summary of TTAB and FTAB buffers |
+
+In the above table, the Short nametab and Initial record layouts are not saved in the databse, they are derived from contents of tables DDNTT and DDNTF
+
+When a user requests access to a table, the DB access agent (embedded in each work process) will read the Short nametab buffer for info about that specific table.
+
+If there is insufficient information (i.e SELECT statemetn uses a non-primary key) it will access the table definitions buffer and then the field descriptions buffer.
+
+By reading the repository buffers, the db access agent knows whether the table is buffered or not.
+
+After obtaining all the required information, the system is able to determine where to pull the data from:
+* Partial Buffer
+* Generic Buffer
+* Database
+
+The IREC buffer is read:
+* When a REFRESH command is executed in an ABAP program
+* At an INSERT command, when a record is created in the buffers before the data is inserted and the fields are initialized with the values found in IREC buffer
 
 # T-Codes
 se11 - Create a Database Table
@@ -64,3 +98,11 @@ se11 - Create a Database Table
 # Acronyms
 
 ***ABAP: Advanced Business Application Programming***
+
+***TTAB: Table Buffer***
+
+***FTAB: Field Descriptors***
+
+***IREC: Initial Record Layout***
+
+***SNTAB: Short Nametab***
