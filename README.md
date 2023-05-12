@@ -20,8 +20,18 @@ In order to understand ABAP memory further, we should understand [**ABAP session
 
 # ABAP Sessions
 
+ABAP Sessions are instances created for user sessions in AS (Application Server) ABAP which use ABAP memory as a separate memory area.
+
+When ABAP Sessions are created, there are some rules which are to be followed:
+    - Maximum number of ABAP sessions per user session: 16
+    - Each GUI Window is associated with its own ABAP session [Question 1](#Does-this-mean)
+
 ## Buffer Types
 
 SAP uses memory buffers in order to reserve memory locations to optimize performance when users are performing transactions. SAP's main memory type which allows for temporary memory allocation is called ABAP memory
 
 ***ABAP: Advanced Business Application Programming***
+
+
+## Questions
+Does this mean we are limited to 16 windows because of memory allocation?
