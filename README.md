@@ -67,9 +67,9 @@ All of this information is summaried in the name table in the following db table
 * DDNTF (Field descriptions)
 
 The Repositroy Buffer consists of four buffers in shared memory:
-| | | |
-|---|---|---|
+
 | Table Definitions | TTAB Buffer | Table DDNT |
+|---|---|---|
 | Field Descriptions | FTAB Buffer | Table DDNTF |
 | Initial Record Layouts | IREC Buffer | Contains the record layout initialized depending on the field type |
 | Short Nametab | SNTAB buffer | A short summary of TTAB and FTAB buffers |
